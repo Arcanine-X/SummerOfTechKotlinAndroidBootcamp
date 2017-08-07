@@ -6,9 +6,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import ventegocreative.co.nz.sot.adapters.AnimalListAdapter
-import ventegocreative.co.nz.sot.model.api.PetfinderRequest
-
+import ventegocreative.co.nz.sot.commands.PetFindCommand
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,9 +28,14 @@ class MainActivity : AppCompatActivity() {
         ButterKnife.bind(this)
 
         animalList.layoutManager = LinearLayoutManager(this)
-        animalList.adapter = AnimalListAdapter(animalItems)
 
-        var result = PetfinderRequest("90210", "cat", this).send()
+        doAsync() {
+            val result = PetFindCommand("90210","cat").execute()
+            uiThread {
+                animalList.adapter = AnimalListAdapter(result)
+            }
+        }
+
 
 
     }
