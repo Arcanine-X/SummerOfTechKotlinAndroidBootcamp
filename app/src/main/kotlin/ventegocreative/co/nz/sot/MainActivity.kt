@@ -6,9 +6,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.toast
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
+import org.jetbrains.anko.recyclerview.v7.recyclerView
 import ventegocreative.co.nz.sot.adapters.AnimalListAdapter
 import ventegocreative.co.nz.sot.commands.PetFindCommand
 import ventegocreative.co.nz.sot.model.domain.Pet
@@ -25,7 +24,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        frameLayout {
+            recyclerView {
+                id = R.id.animal_list
+                layoutManager = LinearLayoutManager(ctx)
+            }
+        }
 
         ButterKnife.bind(this)
 
@@ -43,8 +48,5 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
-
-
-
     }
 }
